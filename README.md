@@ -1,8 +1,8 @@
 # CSE 115A Project
 **Team**:  SafeHouse Keepers 
-**Product**: Name: SafeHouse Release Name: 
+**Product Name**: SafeHouse 
 
-Build 1
+Release Name: Build 1
 
 Release Date: End of Fall Quarter 
 
