@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, ScrollView } from 'react-native';
 import Task from './components/Task';
+import MenuBar from './components/MenuBar';
 
 export default function App() {
   const [task, setTask] = useState();
@@ -19,6 +20,9 @@ export default function App() {
   }
 
   return (
+  <View style={styles.barcontainer}>
+  <MenuBar/>
+  
     <View style={styles.container}>
       <ScrollView
         contentContainerStyle={{
@@ -55,6 +59,7 @@ export default function App() {
       </KeyboardAvoidingView>
       
     </View>
+	</View>
   );
 }
 
@@ -63,13 +68,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#E8EAED',
   },
+  barcontainer: {
+    flex: 1,
+    backgroundColor: 'darkgreen',
+  },
   tasksWrapper: {
     paddingTop: 80,
     paddingHorizontal: 20,
   },
   sectionTitle: {
     fontSize: 24,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   items: {
     marginTop: 30,
