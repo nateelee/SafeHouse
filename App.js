@@ -66,7 +66,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E8EAEF',
+    backgroundColor: '#E8EAED',
   },
   barcontainer: {
     flex: 1,
