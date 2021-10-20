@@ -75,16 +75,17 @@ Spike: google map API
 
 ### Sprint 3:
 
-Spike: database?
+Spike: database? (Firebase)
 
 (?) User story 1: As an individual who cares about visuals, I want the app to be more user-friendly and look more appealing so that it’s easier to look at and navigate around.
 
-(?) User story 2: As a person who wants an efficient experience, I want the app to have a minimal amount of bugs and quick response/load times for my activities so that I can be completely satisfied with the services I’m using.
+(?) User story 2: As someone with a family, I want the app to have an option where I can add family members to the same task list and have our tasks sync properly so that I can see if anyone in the family is forgetting to do something before they leave the house. 
 
-### Backlog:
 
-* Extend accounts to families (linked accounts, add family members) (would involve database)
+### Sprint 4:
 
-* Firebase authentication: sign in using google sign in API, and a client id is generated. And use client id as key when writing home address to firebase database (alternative)
+Spike: more database?
 
-* Scale app to handle multiple houses/locations
+(?) User story 1: As someone with multiple homes, I want the option to log multiple homes so that I can keep track of the tasks I need to complete before leaving each home.
+
+(?) User story 2: As someone with multiple homes, I want access to multiple checklists so that my tasks don't get mixed up between each house.
