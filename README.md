@@ -75,7 +75,7 @@ Spike: google map API
 
 ### Sprint 3:
 
-Spike: database? (Firebase)
+Spike: database? (Firebase) caching?
 
 (?) User story 1: As an individual who cares about visuals, I want the app to be more user-friendly and look more appealing so that it’s easier to look at and navigate around.
 
