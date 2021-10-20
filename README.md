@@ -73,6 +73,8 @@ Spike: google map API
 
 (3) User story 3: As a forgetful person, I want my checklist to be locked when I’m out of the house and unlocked when I arrive home so that I don’t second guess myself on the tasks I have listed.
 
+User story 4: As an average mobile user, I want to have an intuitive UI where I can understand where to access everything from account and location settings and tasks. 
+
 ### Sprint 3:
 
 Spike: database? (Firebase) caching?
