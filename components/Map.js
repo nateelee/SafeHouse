@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  Button,
+  View,
+  Text,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
+import { Entypo } from "@expo/vector-icons";
 
 const Map = () => {
   const [location, setLocation] = useState(null);
@@ -31,6 +40,13 @@ const Map = () => {
     currentLongitude = location.coords.longitude;
   }
 
+  const [homeLatitude, setHomeLatitude] = useState(36.96638);
+  const [homeLongitude, setHomeLongitude] = useState(-122.04229);
+  const setHome = () => {
+    setHomeLatitude(currentLatitude);
+    setHomeLongitude(currentLongitude);
+  };
+
   return (
     <View style={styles.container}>
       <MapView
@@ -44,12 +60,25 @@ const Map = () => {
       >
         <Marker
           coordinate={{
-            latitude: currentLatitude,
-            longitude: currentLongitude,
+            latitude: homeLatitude,
+            longitude: homeLongitude,
           }}
-          title={"Current Location"}
-        ></Marker>
+          title={"Home"}
+        >
+          <Image source={require("../assets/home.png")} />
+        </Marker>
       </MapView>
+      <View style={styles.setHomeWrapper}>
+        <TouchableOpacity
+          onPress={() => {
+            setHome();
+          }}
+        >
+          <View style={styles.setHomeButton}>
+            <Entypo name="home" size={30} color="white" />
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -63,6 +92,29 @@ const styles = StyleSheet.create({
   map: {
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
+  },
+  homeIcon: {
+    width: 40,
+    height: 40,
+  },
+  setHomeButton: {
+    width: 60,
+    height: 60,
+    backgroundColor: "darkgreen",
+    borderRadius: 60,
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "#C0C0C0",
+    borderWidth: 1,
+  },
+  setHomeWrapper: {
+    position: "absolute",
+    bottom: 60,
+    right: 8,
+    width: "100%",
+    flexDirection: "column",
+    justifyContent: "space-around",
+    alignItems: "flex-end",
   },
 });
 export default Map;
