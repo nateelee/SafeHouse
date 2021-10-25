@@ -12,7 +12,7 @@ import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { Entypo } from "@expo/vector-icons";
 
-const Map = () => {
+const Map = ({ route, navigation }) => {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   useEffect(() => {
@@ -40,11 +40,11 @@ const Map = () => {
     currentLongitude = location.coords.longitude;
   }
 
-  const [homeLatitude, setHomeLatitude] = useState(36.96638);
-  const [homeLongitude, setHomeLongitude] = useState(-122.04229);
+  const [homeCoords, setHomeCoords] = useState([36.96638, -122.04229]);
   const setHome = () => {
-    setHomeLatitude(currentLatitude);
-    setHomeLongitude(currentLongitude);
+    route.params.homeLocation[0] = currentLatitude;
+    route.params.homeLocation[1] = currentLongitude;
+    setHomeCoords([route.params.homeLocation[0], route.params.homeLocation[1]]);
   };
 
   return (
@@ -60,8 +60,8 @@ const Map = () => {
       >
         <Marker
           coordinate={{
-            latitude: homeLatitude,
-            longitude: homeLongitude,
+            latitude: route.params.homeLocation[0],
+            longitude: route.params.homeLocation[1],
           }}
           title={"Home"}
         >
