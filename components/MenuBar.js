@@ -20,9 +20,7 @@ const MenuBar = () => {
             ? navigation.navigate("Map", {
                 homeLocation: homeLocation,
               })
-            : navigation.navigate("Home", {
-                homeLocation: homeLocation,
-              });
+            : navigation.goBack();
         }}
       />
     </Appbar.Header>

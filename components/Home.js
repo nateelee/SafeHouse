@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import Task from "./Task";
 
-export default Home = ({ navigation }) => {
+export default Home = () => {
   const [task, setTask] = useState();
   const [taskItems, setTaskItems] = useState([]);
 
