@@ -15,7 +15,11 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.SafeHouseKeepers.SafeHouse",
+      "config": {
+        "googleMapsApiKey": ""
+      }
     },
     "android": {
       "config": {
@@ -27,7 +31,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.jvo1563.SafeHouse"
+      "package": "com.SafeHouseKeepers.SafeHouse"
     },
     "web": {
       "favicon": "./assets/favicon.png"

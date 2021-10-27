@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
   StyleSheet,
-  Button,
   View,
-  Text,
   Dimensions,
   Image,
   TouchableOpacity,
@@ -13,14 +11,13 @@ import * as Location from "expo-location";
 import { Entypo } from "@expo/vector-icons";
 
 const Map = ({ route }) => {
-  const isMounted = useRef(false);
-  const LOCATION_TASK_NAME = "background-location-task";
+  let isMounted = useRef(false);
   const [currentCoords, setCurrentCoords] = useState([36.96638, -122.04229]);
   const [error, setError] = useState({});
 
   getLocationAsync = async () => {
     // watchPositionAsync Return Lat & Long on Position Change
-    if (isMounted.current) {
+    if (isMounted) {
       let location = await Location.watchPositionAsync(
         {
           enableHighAccuracy: true,
@@ -36,7 +33,7 @@ const Map = ({ route }) => {
             latitudeDelta: 0.045,
             longitudeDelta: 0.045,
           };
-          if (isMounted.current) {
+          if (isMounted) {
             setCurrentCoords([region.latitude, region.longitude]);
           }
         },
@@ -48,20 +45,20 @@ const Map = ({ route }) => {
 
   useEffect(() => {
     (async () => {
-      isMounted.current = true;
-      if (isMounted.current) {
+      isMounted = true;
+      if (isMounted) {
         let { status } = await Location.requestForegroundPermissionsAsync();
 
         if (status === "granted") {
           getLocationAsync();
         } else {
-          if (isMounted.current) {
+          if (isMounted) {
             setError({ error: "Locations services needed" });
           }
         }
       }
       return () => {
-        isMounted.current = false;
+        isMounted = false;
       };
     })();
   }, []);
