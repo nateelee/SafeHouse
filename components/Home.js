@@ -120,8 +120,4 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   addText: {},
-  map: {
-    width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
-  },
 });

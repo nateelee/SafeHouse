@@ -5,7 +5,6 @@ import { useNavigation } from "@react-navigation/native";
 
 const MenuBar = () => {
   const navigation = useNavigation();
-  const [isMap, setIsMap] = useState(true);
   const [homeLocation, setHomeLocation] = useState([0, 0]);
   return (
     <Appbar.Header style={{ backgroundColor: "darkgreen" }}>
@@ -15,8 +14,8 @@ const MenuBar = () => {
         color="white"
         icon="map"
         onPress={() => {
-          setIsMap(!isMap);
-          isMap === true
+          const { name } = navigation.getCurrentRoute();
+          name === "Home"
             ? navigation.navigate("Map", {
                 homeLocation: homeLocation,
               })
