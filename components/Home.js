@@ -9,13 +9,14 @@ import {
   Keyboard,
   ScrollView,
   Dimensions,
+  Platform,
 } from "react-native";
 import Task from "./Task";
 
-export default Home = () => {
+export default Home = (props) => {
   const [task, setTask] = useState();
   const [taskItems, setTaskItems] = useState([]);
-
+  
   const handleAddTask = () => {
     Keyboard.dismiss();
     setTaskItems([...taskItems, task]);
@@ -45,7 +46,7 @@ export default Home = () => {
                   key={index}
                   onPress={() => completeTask(index)}
                 >
-                  <Task text={item} />
+                  <Task text={item} isHomeVariable = {props.isHomeVariable} />
                 </TouchableOpacity>
               );
             })}
@@ -54,6 +55,7 @@ export default Home = () => {
       </ScrollView>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset = {Platform.OS === "ios" ? 110 : 0}
         style={styles.writeTaskWrapper}
       >
         <TextInput

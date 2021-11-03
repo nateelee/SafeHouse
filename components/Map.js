@@ -38,6 +38,8 @@ const Map = ({ route }) => {
           };
           if (isMounted) {
             currentCoords.current = [region.latitude, region.longitude];
+            route.params.currLocation[0] = region.latitude;
+            route.params.currLocation[1] = region.longitude;
             animateToRegion();
           } else {
             return null;
