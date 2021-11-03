@@ -1,116 +1,49 @@
-import React, {useState} from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, ScrollView } from 'react-native';
-import Task from './components/Task';
-import MenuBar from './components/MenuBar';
+import "react-native-gesture-handler";
+import * as React from "react";
 
+import { Text, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+
+
+import Home from "./components/Home";
+import MenuBar from "./components/MenuBar";
+import Map from "./components/Map";
+
+
+const Stack = createStackNavigator();
 export default function App() {
-  const [task, setTask] = useState();
-  const [taskItems, setTaskItems] = useState([]);
-
-  const handleAddTask = () => {
-    if (task && task.length != 0) {
-      Keyboard.dismiss();
-      setTaskItems([...taskItems, task])
-      setTask(null);
+  const [isHomeVariable, setIsHomeVariable] = React.useState(false); // will need to read from database
+  const isHome = (homeLocation, currLocation) => {
+    //currLocation = [36.988, -122.0583]; for location outside home
+    let res = null;
+    if (homeLocation[0] == 0 && homeLocation[1] == 0 && currLocation[0] == 0 && currLocation[1] == 0) {
+      return false;
     }
-  }
-
-  const completeTask = (index) => {
-    let itemsCopy = [...taskItems];
-    itemsCopy.splice(index, 1); //delete item
-    setTaskItems(itemsCopy)
-  }
-
-  return (
-  <View style={styles.barcontainer}>
-  <MenuBar/>
+    if (homeLocation[0] == currLocation[0] && homeLocation[1] == currLocation[1]) {
+      res = true;
+    }
+    else {
+      res = false;
+    }
   
-    <View style={styles.container}>
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1
-        }}
-        keyboardShouldPersistTaps='handled'
-      >
-      <View style={styles.tasksWrapper}>
-        <Text style={styles.sectionTitle}>Before leaving home: </Text>
-        <View style={styles.items}>
-          {
-            taskItems.map((item, index) => {
-              return (
-                <TouchableOpacity key={index}  onPress={() => completeTask(index)}>
-                  <Task text={item} /> 
-                </TouchableOpacity>
-              )
-            })
-          }
-        </View>
-      </View>
-        
-      </ScrollView>
-      <KeyboardAvoidingView 
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.writeTaskWrapper}
-      >
-        <TextInput style={styles.input} placeholder={'Write a task'} value={task} onChangeText={text => setTask(text)} />
-        <TouchableOpacity onPress={() => handleAddTask()}>
-          <View style={styles.addWrapper}>
-            <Text style={styles.addText}>+</Text>
-          </View>
-        </TouchableOpacity>
-      </KeyboardAvoidingView>
-      
-    </View>
-	</View>
+    setIsHomeVariable(res)
+  }
+  return (
+    <NavigationContainer>
+      <MenuBar isHomeVariable = {isHomeVariable} isHome = {isHome}/>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" options = {{headerShown: false}}>
+                 {props => <Home isHomeVariable = {isHomeVariable}/>}
+        </Stack.Screen>
+        <Stack.Screen
+          name="Map"
+          component={Map}
+          options={{
+            headerShown: false,
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#E8EAED',
-  },
-  barcontainer: {
-    flex: 1,
-    backgroundColor: 'darkgreen',
-  },
-  tasksWrapper: {
-    paddingTop: 80,
-    paddingHorizontal: 20,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  items: {
-    marginTop: 30,
-  },
-  writeTaskWrapper: {
-    position: 'absolute',
-    bottom: 60,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center'
-  },
-  input: {
-    paddingVertical: 15,
-    paddingHorizontal: 15,
-    backgroundColor: '#FFF',
-    borderRadius: 60,
-    borderColor: '#C0C0C0',
-    borderWidth: 1,
-    width: 250,
-  },
-  addWrapper: {
-    width: 60,
-    height: 60,
-    backgroundColor: '#FFF',
-    borderRadius: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: '#C0C0C0',
-    borderWidth: 1,
-  },
-  addText: {},
-});
