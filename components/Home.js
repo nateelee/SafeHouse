@@ -18,9 +18,11 @@ export default Home = (props) => {
   const [taskItems, setTaskItems] = useState([]);
   
   const handleAddTask = () => {
-    Keyboard.dismiss();
-    setTaskItems([...taskItems, task]);
-    setTask(null);
+    if (task != null) {
+      Keyboard.dismiss();
+      setTaskItems([...taskItems, task]);
+      setTask(null);
+    }
   };
 
   const completeTask = (index) => {

@@ -15,7 +15,7 @@ const Stack = createStackNavigator();
 export default function App() {
   const [isHomeVariable, setIsHomeVariable] = React.useState(false); // will need to read from database
   const isHome = (homeLocation, currLocation) => {
-    //currLocation = [36.988, -122.0583]; for location outside home
+    //currLocation = [36.988, -122.0583]; //for location outside home
     let res = null;
     if (homeLocation[0] == 0 && homeLocation[1] == 0 && currLocation[0] == 0 && currLocation[1] == 0) {
       return false;
