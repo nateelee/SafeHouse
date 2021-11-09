@@ -19,6 +19,7 @@ const Task = (props) => {
                 }
             }}
             isChecked = {isChecked}
+			style={{marginTop: 19, marginLeft: 15, position: 'absolute', transform: [{ scaleX: 1.0 }, { scaleY: 1.0 }] }}
       />
     </View>
   )
@@ -27,25 +28,26 @@ const Task = (props) => {
 const styles = StyleSheet.create({
   item: {
     backgroundColor: '#FFF',
-    padding: 15,
+    padding: 20,
     borderRadius: 10,
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 20,
+	height: 150,
+	width: 150,
   },
   itemLeft: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'baseline',
     flexWrap: 'wrap'
   },
   square: {
-    width: 24,
-    height: 24,
+    width: 19,
+    height: 19,
     backgroundColor: '#55BCF6',
     opacity: 0.4,
-    borderRadius: 5,
-    marginRight: 15,
+    marginLeft: 90,
+	marginBottom: 10
   },
   itemText: {
     maxWidth: '80%',
