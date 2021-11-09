@@ -14,7 +14,9 @@ const Task = (props) => {
       <CheckBox
 
             onClick = {() => {
-                setIsChecked(!isChecked)
+                if (props.isHomeVariable) {
+                  setIsChecked(!isChecked)
+                }
             }}
             isChecked = {isChecked}
 			style={{marginTop: 19, marginLeft: 15, position: 'absolute', transform: [{ scaleX: 1.0 }, { scaleY: 1.0 }] }}
