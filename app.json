@@ -18,13 +18,13 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.SafeHouseKeepers.SafeHouse",
       "config": {
-        "googleMapsApiKey": ""
+        "googleMapsApiKey": "AIzaSyDAs6mpttGAoCARCl3L3PsfrpyfbxNcnRY"
       }
     },
     "android": {
       "config": {
         "googleMaps": {
-          "apiKey": ""
+          "apiKey": "AIzaSyC8rweuPGQa_wtW06sOggy3gpK_VDyY9VI"
         }
       },
       "adaptiveIcon": {

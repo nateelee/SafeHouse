@@ -11,9 +11,12 @@ import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from "expo-location";
 import { Entypo, FontAwesome5 } from "@expo/vector-icons";
 
-const Map = ({ route }) => {
+const Map = (props) => {
   let isMounted = useRef(false);
-  const currentCoords = useRef([36.988, -122.0583]);
+  const currentCoords = useRef({
+    latitude: 36.988,
+    longitude: -122.0583,
+  });
   const mapRef = useRef(null);
   const followsUserLocation = useRef(true);
   const [error, setError] = useState({});
@@ -24,22 +27,22 @@ const Map = ({ route }) => {
     if (isMounted) {
       let location = await Location.watchPositionAsync(
         {
-          enableHighAccuracy: true,
-          distanceInterval: 1,
-          timeInterval: 10000,
+          accuracy: Location.Accuracy.BestForNavigation,
+          timeInterval: 3000,
         },
         (newLocation) => {
           let { coords } = newLocation;
-          let region = {
-            latitude: coords.latitude,
-            longitude: coords.longitude,
-            latitudeDelta: 0.025,
-            longitudeDelta: 0.025,
-          };
+          // let region = {
+          //   latitude: coords.latitude,
+          //   longitude: coords.longitude,
+          //   latitudeDelta: 0.025,
+          //   longitudeDelta: 0.025,
+          // };
           if (isMounted) {
-            currentCoords.current = [region.latitude, region.longitude];
-            route.params.currLocation[0] = region.latitude;
-            route.params.currLocation[1] = region.longitude;
+            currentCoords.current = {
+              latitude: coords.latitude,
+              longitude: coords.longitude,
+            };
             animateToRegion();
           } else {
             return null;
@@ -73,8 +76,10 @@ const Map = ({ route }) => {
   }, []);
 
   const setHome = () => {
-    route.params.homeLocation[0] = currentCoords.current[0];
-    route.params.homeLocation[1] = currentCoords.current[1];
+    props.homeLocation.current = {
+      latitude: currentCoords.current.latitude,
+      longitude: currentCoords.current.longitude,
+    };
     setUpdateState(!updateState);
   };
 
@@ -83,8 +88,8 @@ const Map = ({ route }) => {
       followsUserLocation.current &&
         mapRef.current.animateToRegion(
           {
-            latitude: currentCoords.current[0],
-            longitude: currentCoords.current[1],
+            latitude: currentCoords.current.latitude,
+            longitude: currentCoords.current.longitude,
             latitudeDelta: 0.025,
             longitudeDelta: 0.025,
           },
@@ -134,8 +139,8 @@ const Map = ({ route }) => {
         }}
         provider={PROVIDER_GOOGLE}
         initialRegion={{
-          latitude: currentCoords.current[0],
-          longitude: currentCoords.current[1],
+          latitude: currentCoords.current.latitude,
+          longitude: currentCoords.current.longitude,
           latitudeDelta: 0.025,
           longitudeDelta: 0.025,
         }}
@@ -150,8 +155,8 @@ const Map = ({ route }) => {
       >
         <Marker
           coordinate={{
-            latitude: route.params.homeLocation[0],
-            longitude: route.params.homeLocation[1],
+            latitude: props.homeLocation.current.latitude,
+            longitude: props.homeLocation.current.longitude,
           }}
           title={"Home"}
         >
@@ -216,7 +221,7 @@ const styles = StyleSheet.create({
   },
   bottomButtonsWrapper: {
     position: "absolute",
-    bottom: 90,
+    bottom: 40,
     width: "100%",
     flex: 1,
     flexDirection: "row",
