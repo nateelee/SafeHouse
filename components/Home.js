@@ -16,7 +16,7 @@ import Task from "./Task";
 export default Home = (props) => {
   const [task, setTask] = useState();
   const [taskItems, setTaskItems] = useState([]);
-  
+
   const handleAddTask = () => {
     if (task != null) {
       Keyboard.dismiss();
@@ -48,7 +48,7 @@ export default Home = (props) => {
                   key={index}
                   onPress={() => completeTask(index)}
                 >
-                  <Task text={item} isHomeVariable = {props.isHomeVariable} />
+                  <Task text={item} isHomeVariable={props.isHomeVariable} />
                 </TouchableOpacity>
               );
             })}
@@ -57,7 +57,7 @@ export default Home = (props) => {
       </ScrollView>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset = {Platform.OS === "ios" ? 110 : 0}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 110 : 30}
         style={styles.writeTaskWrapper}
       >
         <TextInput
