@@ -9,6 +9,19 @@ import * as Location from "expo-location";
 import Home from "./components/Home";
 import MenuBar from "./components/MenuBar";
 import Map from "./components/Map";
+import LoginScreen from "./screens/LoginScreen";
+import { UserContextProvider } from "./context/UserContext";
+
+import { LogBox } from "react-native";
+import _ from "lodash";
+LogBox.ignoreLogs(["Warning:..."]); // ignore specific logs
+LogBox.ignoreAllLogs(); // ignore all logs
+const _console = _.clone(console);
+console.warn = (message) => {
+  if (message.indexOf("Setting a timer") <= -1) {
+    _console.warn(message);
+  }
+};
 
 const Stack = createStackNavigator();
 export default function App() {
@@ -64,22 +77,23 @@ export default function App() {
   }, []);
 
   return (
-    <NavigationContainer>
-      <MenuBar />
-      {/* <Button
-        title="log ishomevaraible"
-        onPress={() => {
-          console.log(isHomeVariable);
-        }}
-      /> */}
-      <Stack.Navigator>
-        <Stack.Screen name="Home" options={{ headerShown: false }}>
-          {(props) => <Home isHomeVariable={isHomeVariable} />}
-        </Stack.Screen>
-        <Stack.Screen name="Map" options={{ headerShown: false }}>
-          {(props) => <Map homeLocation={homeLocation} />}
-        </Stack.Screen>
-      </Stack.Navigator>
-    </NavigationContainer>
+    <UserContextProvider>
+      <NavigationContainer>
+        <MenuBar />
+        <Stack.Navigator>
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="Login"
+            component={LoginScreen}
+          />
+          <Stack.Screen name="Home" options={{ headerShown: false }}>
+            {(props) => <Home isHomeVariable={isHomeVariable} />}
+          </Stack.Screen>
+          <Stack.Screen name="Map" options={{ headerShown: false }}>
+            {(props) => <Map homeLocation={homeLocation} />}
+          </Stack.Screen>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </UserContextProvider>
   );
 }

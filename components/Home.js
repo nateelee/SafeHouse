@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   KeyboardAvoidingView,
   StyleSheet,
@@ -12,10 +12,28 @@ import {
   Platform,
 } from "react-native";
 import Task from "./Task";
+import { useNavigation } from "@react-navigation/core";
+
+import UserContext from "../context/UserContext";
+import { onSignOut } from "../firebase/firebase.utils";
+// import { auth } from "../firebase/firebase.utils";
 
 export default Home = (props) => {
   const [task, setTask] = useState();
   const [taskItems, setTaskItems] = useState([]);
+  const navigation = useNavigation();
+
+  const { resetUser, user } = useContext(UserContext);
+
+  const handleSignOut = () => {
+    // console.log(user);
+    onSignOut()
+      .then(() => {
+        resetUser();
+        navigation.replace("Login");
+      })
+      .catch((error) => alert(error.message));
+  };
 
   const handleAddTask = () => {
     if (task != null) {
@@ -40,6 +58,14 @@ export default Home = (props) => {
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.tasksWrapper}>
+          {/* <Text>Email: {auth.currentUser?.email}</Text> */}
+          {/* <Text>uid: {auth.currentUser?.uid}</Text> */}
+          <Text>name: {user?.displayName}</Text>
+          <Text>email: {user?.email}</Text>
+          <Text>uid: {user?.uid}</Text>
+          <TouchableOpacity onPress={handleSignOut} style={styles.button}>
+            <Text style={styles.buttonText}>Sign out</Text>
+          </TouchableOpacity>
           <Text style={styles.sectionTitle}>Before leaving home: </Text>
           <View style={styles.items}>
             {taskItems.map((item, index) => {
@@ -124,4 +150,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   addText: {},
+  button: {
+    backgroundColor: "#0782F9",
+    width: "60%",
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center",
+    marginTop: 40,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "700",
+    fontSize: 16,
+  },
 });
