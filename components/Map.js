@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import {
   StyleSheet,
   View,
@@ -10,8 +10,12 @@ import {
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from "expo-location";
 import { Entypo, FontAwesome5 } from "@expo/vector-icons";
+import { firestore } from "../firebase/firebase.utils";
+import UserContext from "../context/UserContext";
 
 const Map = (props) => {
+  const { user } = useContext(UserContext);
+  const db = useRef();
   let isMounted = useRef(false);
   const currentCoords = useRef({
     latitude: 36.988,
@@ -32,12 +36,6 @@ const Map = (props) => {
         },
         (newLocation) => {
           let { coords } = newLocation;
-          // let region = {
-          //   latitude: coords.latitude,
-          //   longitude: coords.longitude,
-          //   latitudeDelta: 0.025,
-          //   longitudeDelta: 0.025,
-          // };
           if (isMounted) {
             currentCoords.current = {
               latitude: coords.latitude,
@@ -80,6 +78,33 @@ const Map = (props) => {
       latitude: currentCoords.current.latitude,
       longitude: currentCoords.current.longitude,
     };
+
+    const userRef = firestore.doc(`users/${user.uid}`);
+    userRef
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          console.log("Document data:", doc.data());
+          db.current = doc.data();
+          console.log(db.current);
+          userRef.set({
+            gmail: db.current.gmail,
+            profile_picture: db.current.profile_picture,
+            first_name: db.current.first_name,
+            last_name: db.current.last_name,
+            last_logged_in: db.current.last_logged_in,
+            created_at: db.current.created_at,
+            task_list: db.current.task_list,
+            home_location: props.homeLocation.current,
+          });
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+      })
+      .catch((error) => {
+        console.log("Error getting document:", error);
+      });
     setUpdateState(!updateState);
   };
 

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import {
   KeyboardAvoidingView,
   StyleSheet,
@@ -15,13 +15,15 @@ import Task from "./Task";
 import { useNavigation } from "@react-navigation/core";
 
 import UserContext from "../context/UserContext";
-import { onSignOut } from "../firebase/firebase.utils";
-// import { auth } from "../firebase/firebase.utils";
+import { onSignOut, firestore } from "../firebase/firebase.utils";
+import * as firebase from "firebase";
 
 export default Home = (props) => {
   const [task, setTask] = useState();
   const [taskItems, setTaskItems] = useState([]);
+  const taskList = useRef([]);
   const navigation = useNavigation();
+  const db = useRef();
 
   const { resetUser, user } = useContext(UserContext);
 
@@ -39,7 +41,34 @@ export default Home = (props) => {
     if (task != null) {
       Keyboard.dismiss();
       setTaskItems([...taskItems, task]);
+      taskList.current = [...taskItems, task];
       setTask(null);
+
+      const userRef = firestore.doc(`users/${user.uid}`);
+      userRef
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            console.log("Document data:", doc.data());
+            db.current = doc.data();
+            userRef.set({
+              gmail: db.current.gmail,
+              profile_picture: db.current.profile_picture,
+              first_name: db.current.first_name,
+              last_name: db.current.last_name,
+              last_logged_in: db.current.last_logged_in,
+              created_at: db.current.created_at,
+              task_list: taskList.current,
+              home_location: db.current.home_location,
+            });
+          } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+          }
+        })
+        .catch((error) => {
+          console.log("Error getting document:", error);
+        });
     }
   };
 
@@ -47,6 +76,31 @@ export default Home = (props) => {
     let itemsCopy = [...taskItems];
     itemsCopy.splice(index, 1); //delete item
     setTaskItems(itemsCopy);
+    taskList.current = itemsCopy;
+    const userRef = firestore.doc(`users/${user.uid}`);
+    userRef
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          console.log("Document data:", doc.data());
+          db.current = doc.data();
+          userRef.set({
+            gmail: db.current.gmail,
+            profile_picture: db.current.profile_picture,
+            first_name: db.current.first_name,
+            last_name: db.current.last_name,
+            last_logged_in: db.current.last_logged_in,
+            created_at: db.current.created_at,
+            task_list: taskList.current,
+          });
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+      })
+      .catch((error) => {
+        console.log("Error getting document:", error);
+      });
   };
 
   return (
