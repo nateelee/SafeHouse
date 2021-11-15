@@ -32,7 +32,8 @@ const Map = (props) => {
       let location = await Location.watchPositionAsync(
         {
           accuracy: Location.Accuracy.BestForNavigation,
-          timeInterval: 3000,
+          // timeInterval: 3000,
+          distanceInterval: 0,
         },
         (newLocation) => {
           let { coords } = newLocation;
@@ -84,19 +85,10 @@ const Map = (props) => {
       .get()
       .then((doc) => {
         if (doc.exists) {
-          console.log("Document data:", doc.data());
+          // console.log("Document data:", doc.data());
           db.current = doc.data();
-          console.log(db.current);
-          userRef.set({
-            gmail: db.current.gmail,
-            profile_picture: db.current.profile_picture,
-            first_name: db.current.first_name,
-            last_name: db.current.last_name,
-            last_logged_in: db.current.last_logged_in,
-            created_at: db.current.created_at,
-            task_list: db.current.task_list,
-            home_location: props.homeLocation.current,
-          });
+          db.current.home_location = props.homeLocation.current;
+          userRef.set(db.current);
         } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");

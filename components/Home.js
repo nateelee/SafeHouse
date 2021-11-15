@@ -49,18 +49,10 @@ export default Home = (props) => {
         .get()
         .then((doc) => {
           if (doc.exists) {
-            console.log("Document data:", doc.data());
+            // console.log("Document data:", doc.data());
             db.current = doc.data();
-            userRef.set({
-              gmail: db.current.gmail,
-              profile_picture: db.current.profile_picture,
-              first_name: db.current.first_name,
-              last_name: db.current.last_name,
-              last_logged_in: db.current.last_logged_in,
-              created_at: db.current.created_at,
-              task_list: taskList.current,
-              home_location: db.current.home_location,
-            });
+            db.current.task_list = taskList.current;
+            userRef.set(db.current);
           } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");
@@ -82,17 +74,10 @@ export default Home = (props) => {
       .get()
       .then((doc) => {
         if (doc.exists) {
-          console.log("Document data:", doc.data());
+          //console.log("Document data:", doc.data());
           db.current = doc.data();
-          userRef.set({
-            gmail: db.current.gmail,
-            profile_picture: db.current.profile_picture,
-            first_name: db.current.first_name,
-            last_name: db.current.last_name,
-            last_logged_in: db.current.last_logged_in,
-            created_at: db.current.created_at,
-            task_list: taskList.current,
-          });
+          db.current.task_list = taskList.current;
+          userRef.set(db.current);
         } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");

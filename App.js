@@ -35,9 +35,11 @@ export default function App() {
     let location = await Location.watchPositionAsync(
       {
         accuracy: Location.Accuracy.BestForNavigation,
-        timeInterval: 3000,
+        // timeInterval: 3000,
+        distanceInterval: 0,
       },
       (newLocation) => {
+        //console.log("checking location");
         let { coords } = newLocation;
         let res = null;
         if (
@@ -80,6 +82,13 @@ export default function App() {
     <UserContextProvider>
       <NavigationContainer>
         <MenuBar />
+        {/* used for debugging */}
+        {/* <Button
+          title="log ishomevaraible"
+          onPress={() => {
+            console.log(isHomeVariable);
+          }}
+        /> */}
         <Stack.Navigator>
           <Stack.Screen
             options={{ headerShown: false }}
