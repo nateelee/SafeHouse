@@ -124,6 +124,9 @@ const styles = StyleSheet.create({
   },
   items: {
     marginTop: 30,
+	flexDirection: "row",
+	justifyContent: "space-around",
+	flexWrap: "wrap",
   },
   writeTaskWrapper: {
     position: "absolute",
