@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from "react";
+import React, { useState, useContext, useRef, useEffect } from "react";
 import {
   KeyboardAvoidingView,
   StyleSheet,
@@ -16,16 +16,34 @@ import { useNavigation } from "@react-navigation/core";
 
 import UserContext from "../context/UserContext";
 import { onSignOut, firestore } from "../firebase/firebase.utils";
-import * as firebase from "firebase";
 
 export default Home = (props) => {
   const [task, setTask] = useState();
   const [taskItems, setTaskItems] = useState([]);
   const taskList = useRef([]);
   const navigation = useNavigation();
-  const db = useRef();
 
   const { resetUser, user } = useContext(UserContext);
+
+  useEffect(() => {
+    const userRef = firestore.doc(`users/${user.uid}`);
+    userRef
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          // console.log("Document data:", doc.data());
+          props.homeLocation.current = doc.data().home_location;
+          setTaskItems(doc.data().task_list);
+          taskList.current = doc.data().task_list;
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+      })
+      .catch((error) => {
+        console.log("Error getting document:", error);
+      });
+  }, []);
 
   const handleSignOut = () => {
     // console.log(user);
@@ -40,27 +58,14 @@ export default Home = (props) => {
   const handleAddTask = () => {
     if (task != null) {
       Keyboard.dismiss();
-      setTaskItems([...taskItems, task]);
-      taskList.current = [...taskItems, task];
+      setTaskItems([...taskItems, { text: task, checked: false }]);
+      taskList.current = [...taskItems, { text: task, checked: false }];
       setTask(null);
 
       const userRef = firestore.doc(`users/${user.uid}`);
-      userRef
-        .get()
-        .then((doc) => {
-          if (doc.exists) {
-            // console.log("Document data:", doc.data());
-            db.current = doc.data();
-            db.current.task_list = taskList.current;
-            userRef.set(db.current);
-          } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
-          }
-        })
-        .catch((error) => {
-          console.log("Error getting document:", error);
-        });
+      userRef.update({
+        task_list: taskList.current,
+      });
     }
   };
 
@@ -70,22 +75,9 @@ export default Home = (props) => {
     setTaskItems(itemsCopy);
     taskList.current = itemsCopy;
     const userRef = firestore.doc(`users/${user.uid}`);
-    userRef
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          //console.log("Document data:", doc.data());
-          db.current = doc.data();
-          db.current.task_list = taskList.current;
-          userRef.set(db.current);
-        } else {
-          // doc.data() will be undefined in this case
-          console.log("No such document!");
-        }
-      })
-      .catch((error) => {
-        console.log("Error getting document:", error);
-      });
+    userRef.update({
+      task_list: taskList.current,
+    });
   };
 
   return (
@@ -96,15 +88,13 @@ export default Home = (props) => {
         }}
         keyboardShouldPersistTaps="handled"
       >
+        <TouchableOpacity onPress={handleSignOut} style={styles.button}>
+          <Text style={styles.buttonText}>Sign out</Text>
+        </TouchableOpacity>
         <View style={styles.tasksWrapper}>
-          {/* <Text>Email: {auth.currentUser?.email}</Text> */}
-          {/* <Text>uid: {auth.currentUser?.uid}</Text> */}
-          <Text>name: {user?.displayName}</Text>
-          <Text>email: {user?.email}</Text>
-          <Text>uid: {user?.uid}</Text>
-          <TouchableOpacity onPress={handleSignOut} style={styles.button}>
-            <Text style={styles.buttonText}>Sign out</Text>
-          </TouchableOpacity>
+          {/* <Text>name: {user?.displayName}</Text> */}
+          {/* <Text>email: {user?.email}</Text> */}
+          {/* <Text>uid: {user?.uid}</Text> */}
           <Text style={styles.sectionTitle}>Before leaving home: </Text>
           <View style={styles.items}>
             {taskItems.map((item, index) => {
@@ -113,7 +103,13 @@ export default Home = (props) => {
                   key={index}
                   onPress={() => completeTask(index)}
                 >
-                  <Task text={item} isHomeVariable={props.isHomeVariable} />
+                  <Task
+                    text={item.text}
+                    index={index}
+                    isHomeVariable={props.isHomeVariable}
+                    taskList={taskItems}
+                    setTaskList={setTaskItems}
+                  />
                 </TouchableOpacity>
               );
             })}
@@ -190,12 +186,14 @@ const styles = StyleSheet.create({
   },
   addText: {},
   button: {
+    position: "absolute",
     backgroundColor: "#0782F9",
     width: "60%",
     padding: 15,
     borderRadius: 10,
     alignItems: "center",
-    marginTop: 40,
+    marginTop: 20,
+    marginLeft: 40,
   },
   buttonText: {
     color: "white",

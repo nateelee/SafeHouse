@@ -81,22 +81,25 @@ const Map = (props) => {
     };
 
     const userRef = firestore.doc(`users/${user.uid}`);
-    userRef
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          // console.log("Document data:", doc.data());
-          db.current = doc.data();
-          db.current.home_location = props.homeLocation.current;
-          userRef.set(db.current);
-        } else {
-          // doc.data() will be undefined in this case
-          console.log("No such document!");
-        }
-      })
-      .catch((error) => {
-        console.log("Error getting document:", error);
-      });
+    userRef.update({
+      home_location: props.homeLocation.current,
+    });
+    // userRef
+    //   .get()
+    //   .then((doc) => {
+    //     if (doc.exists) {
+    //       // console.log("Document data:", doc.data());
+    //       db.current = doc.data();
+    //       db.current.home_location = props.homeLocation.current;
+    //       userRef.set(db.current);
+    //     } else {
+    //       // doc.data() will be undefined in this case
+    //       console.log("No such document!");
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.log("Error getting document:", error);
+    //   });
     setUpdateState(!updateState);
   };
 

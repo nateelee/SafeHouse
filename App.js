@@ -96,7 +96,12 @@ export default function App() {
             component={LoginScreen}
           />
           <Stack.Screen name="Home" options={{ headerShown: false }}>
-            {(props) => <Home isHomeVariable={isHomeVariable} />}
+            {(props) => (
+              <Home
+                isHomeVariable={isHomeVariable}
+                homeLocation={homeLocation}
+              />
+            )}
           </Stack.Screen>
           <Stack.Screen name="Map" options={{ headerShown: false }}>
             {(props) => <Map homeLocation={homeLocation} />}
