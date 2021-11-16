@@ -36,9 +36,14 @@ export default Home = (props) => {
   };
 
   const handleAddTask = () => {
-    if (task != null) {
+    if (task != null && task.length <= 50) {
       Keyboard.dismiss();
       setTaskItems([...taskItems, task]);
+      setTask(null);
+    }
+	else if(task != null && task.length > 50) {
+      Keyboard.dismiss();
+	  alert("Please keep your tasks under 50 characters in length!")
       setTask(null);
     }
 	else{
