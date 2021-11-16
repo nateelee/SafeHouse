@@ -23,6 +23,9 @@ export default Home = (props) => {
       setTaskItems([...taskItems, task]);
       setTask(null);
     }
+	else{
+		alert("You cannot have an empty task!");
+	}
   };
 
   const completeTask = (index) => {
