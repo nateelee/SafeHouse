@@ -68,12 +68,6 @@ export default Home = (props) => {
         <View style={styles.tasksWrapper}>
           {/* <Text>Email: {auth.currentUser?.email}</Text> */}
           {/* <Text>uid: {auth.currentUser?.uid}</Text> */}
-          <Text>name: {user?.displayName}</Text>
-          <Text>email: {user?.email}</Text>
-          <Text>uid: {user?.uid}</Text>
-          <TouchableOpacity onPress={handleSignOut} style={styles.button}>
-            <Text style={styles.buttonText}>Sign out</Text>
-          </TouchableOpacity>
           <Text style={styles.sectionTitle}>Before leaving home: </Text>
           <View style={styles.items}>
             {taskItems.map((item, index) => {
