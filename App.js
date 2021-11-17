@@ -85,12 +85,12 @@ export default function App() {
       <NavigationContainer>
         <MenuBar />
         {/* used for debugging */}
-        <Button
+        {/* <Button
           title="log ishomevaraible"
           onPress={() => {
             console.log(isHomeVariable);
           }}
-        />
+        /> */}
         <Stack.Navigator>
           <Stack.Screen
             options={{ headerShown: false, gestureEnabled: false }}
