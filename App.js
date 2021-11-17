@@ -51,8 +51,10 @@ export default function App() {
           return false;
         }
         if (
-          homeLocation.current.latitude == coords.latitude &&
-          homeLocation.current.longitude == coords.longitude
+          homeLocation.current.latitude - 0.0003 <= coords.latitude &&
+          coords.latitude <= homeLocation.current.latitude + 0.0003 &&
+          homeLocation.current.longitude - 0.0003 <= coords.longitude &&
+          coords.longitude <= homeLocation.current.longitude + 0.0003
         ) {
           res = true;
         } else {
@@ -83,12 +85,12 @@ export default function App() {
       <NavigationContainer>
         <MenuBar />
         {/* used for debugging */}
-        {/* <Button
+        <Button
           title="log ishomevaraible"
           onPress={() => {
             console.log(isHomeVariable);
           }}
-        /> */}
+        />
         <Stack.Navigator>
           <Stack.Screen
             options={{ headerShown: false, gestureEnabled: false }}
