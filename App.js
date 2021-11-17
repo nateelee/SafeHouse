@@ -35,11 +35,9 @@ export default function App() {
     let location = await Location.watchPositionAsync(
       {
         accuracy: Location.Accuracy.BestForNavigation,
-        // timeInterval: 3000,
-        distanceInterval: 0,
+        timeInterval: 3000,
       },
       (newLocation) => {
-        //console.log("checking location");
         let { coords } = newLocation;
         let res = null;
         if (
@@ -89,12 +87,7 @@ export default function App() {
             component={LoginScreen}
           />
           <Stack.Screen name="Home" options={{ headerShown: false }}>
-            {(props) => (
-              <Home
-                isHomeVariable={isHomeVariable}
-                homeLocation={homeLocation}
-              />
-            )}
+            {(props) => <Home isHomeVariable={isHomeVariable} />}
           </Stack.Screen>
           <Stack.Screen name="Map" options={{ headerShown: false }}>
             {(props) => <Map homeLocation={homeLocation} />}
