@@ -82,16 +82,9 @@ export default function App() {
     <UserContextProvider>
       <NavigationContainer>
         <MenuBar />
-        {/* used for debugging */}
-        {/* <Button
-          title="log ishomevaraible"
-          onPress={() => {
-            console.log(isHomeVariable);
-          }}
-        /> */}
         <Stack.Navigator>
           <Stack.Screen
-            options={{ headerShown: false }}
+            options={{ headerShown: false, gestureEnabled: false }}
             name="Login"
             component={LoginScreen}
           />
