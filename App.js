@@ -82,7 +82,7 @@ export default function App() {
         <MenuBar />
         <Stack.Navigator>
           <Stack.Screen
-            options={{ headerShown: false }}
+            options={{ headerShown: false, gestureEnabled: false }}
             name="Login"
             component={LoginScreen}
           />

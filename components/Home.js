@@ -36,11 +36,19 @@ export default Home = (props) => {
   };
 
   const handleAddTask = () => {
-    if (task != null) {
+    if (task != null && task.length <= 50) {
       Keyboard.dismiss();
       setTaskItems([...taskItems, task]);
       setTask(null);
     }
+	else if(task != null && task.length > 50) {
+      Keyboard.dismiss();
+	  alert("Please keep your tasks under 50 characters in length!")
+      setTask(null);
+    }
+	else{
+		alert("You cannot have an empty task!");
+	}
   };
 
   const completeTask = (index) => {
@@ -60,12 +68,6 @@ export default Home = (props) => {
         <View style={styles.tasksWrapper}>
           {/* <Text>Email: {auth.currentUser?.email}</Text> */}
           {/* <Text>uid: {auth.currentUser?.uid}</Text> */}
-          <Text>name: {user?.displayName}</Text>
-          <Text>email: {user?.email}</Text>
-          <Text>uid: {user?.uid}</Text>
-          <TouchableOpacity onPress={handleSignOut} style={styles.button}>
-            <Text style={styles.buttonText}>Sign out</Text>
-          </TouchableOpacity>
           <Text style={styles.sectionTitle}>Before leaving home: </Text>
           <View style={styles.items}>
             {taskItems.map((item, index) => {
@@ -121,6 +123,9 @@ const styles = StyleSheet.create({
   },
   items: {
     marginTop: 30,
+	flexDirection: "row",
+	justifyContent: "space-around",
+	flexWrap: "wrap",
   },
   writeTaskWrapper: {
     position: "absolute",
