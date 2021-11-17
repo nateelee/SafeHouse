@@ -2,33 +2,21 @@ import React, { useState, useContext } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import CheckBox from "react-native-check-box";
 
-import UserContext from "../context/UserContext";
-import { firestore } from "../firebase/firebase.utils";
 const Task = (props) => {
-  //const [isChecked, setIsChecked] = useState(props.checked);
-  const [updateState, setUpdateState] = useState(false);
-  const { user } = useContext(UserContext);
-
   return (
     <View style={styles.item}>
       <View style={styles.itemLeft}>
-        <View style={styles.square}></View>
+        <TouchableOpacity
+          style={styles.square}
+          onPress={() => props.completeTask(props.index)}
+        />
         <Text style={styles.itemText}>{props.text}</Text>
       </View>
       <View style={styles.circular}></View>
       <CheckBox
         onClick={() => {
           if (props.isHomeVariable) {
-            const temp = props.taskList;
-            temp[props.index].checked = !temp[props.index].checked;
-            props.setTaskList(temp);
-            const userRef = firestore.doc(`users/${user.uid}`);
-            userRef.update({
-              task_list: temp,
-            });
-            setUpdateState(!updateState);
-
-            //setIsChecked(!isChecked);
+            props.handleChangeTaskCheck(props.index);
           } else {
             Alert.alert(
               "Alert!",
@@ -41,7 +29,7 @@ const Task = (props) => {
             );
           }
         }}
-        isChecked={props.taskList[props.index].checked}
+        isChecked={props.checked}
         style={{
           marginTop: 19,
           marginLeft: 15,

@@ -33,8 +33,8 @@ export default Home = (props) => {
         if (doc.exists) {
           // console.log("Document data:", doc.data());
           props.homeLocation.current = doc.data().home_location;
-          setTaskItems(doc.data().task_list);
           taskList.current = doc.data().task_list;
+          setTaskItems(doc.data().task_list);
         } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");
@@ -72,12 +72,23 @@ export default Home = (props) => {
   const completeTask = (index) => {
     let itemsCopy = [...taskItems];
     itemsCopy.splice(index, 1); //delete item
-    setTaskItems(itemsCopy);
-    taskList.current = itemsCopy;
     const userRef = firestore.doc(`users/${user.uid}`);
     userRef.update({
-      task_list: taskList.current,
+      task_list: itemsCopy,
     });
+    taskList.current = itemsCopy;
+    setTaskItems(itemsCopy);
+  };
+
+  const handleChangeTaskCheck = (index) => {
+    let itemsCopy = [...taskItems];
+    itemsCopy[index].checked = !itemsCopy[index].checked;
+    const userRef = firestore.doc(`users/${user.uid}`);
+    userRef.update({
+      task_list: itemsCopy,
+    });
+    taskList.current = itemsCopy;
+    setTaskItems(itemsCopy);
   };
 
   return (
@@ -99,18 +110,16 @@ export default Home = (props) => {
           <View style={styles.items}>
             {taskItems.map((item, index) => {
               return (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => completeTask(index)}
-                >
+                <View key={index}>
                   <Task
                     text={item.text}
+                    checked={item.checked}
                     index={index}
                     isHomeVariable={props.isHomeVariable}
-                    taskList={taskItems}
-                    setTaskList={setTaskItems}
+                    completeTask={completeTask}
+                    handleChangeTaskCheck={handleChangeTaskCheck}
                   />
-                </TouchableOpacity>
+                </View>
               );
             })}
           </View>
