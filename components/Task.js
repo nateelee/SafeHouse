@@ -1,13 +1,15 @@
 import React, { useState, useContext } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import CheckBox from "react-native-check-box";
+import { IconButton } from "react-native-paper";
 
 const Task = (props) => {
   return (
     <View style={styles.item}>
       <View style={styles.itemLeft}>
-        <TouchableOpacity
-          style={styles.square}
+        <IconButton
+          style={styles.deleteButton}
+          icon="delete"
           onPress={() => props.completeTask(props.index)}
         />
         <Text style={styles.itemText}>{props.text}</Text>
@@ -57,13 +59,10 @@ const styles = StyleSheet.create({
     alignItems: "baseline",
     flexWrap: "wrap",
   },
-  square: {
-    width: 19,
-    height: 19,
-    backgroundColor: "#55BCF6",
-    opacity: 0.4,
-    marginLeft: 90,
-    marginBottom: 10,
+  deleteButton: {
+    marginLeft: 85,
+    marginBottom: -10,
+    top: -15,
   },
   itemText: {
     maxWidth: "80%",
