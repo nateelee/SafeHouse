@@ -1,4 +1,4 @@
-import React, { useContext,useState } from "react";
+import React, { useContext, useState } from "react";
 import { Appbar, Menu } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -13,7 +13,7 @@ const MenuBar = (props) => {
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
   const { resetUser, user } = useContext(UserContext);
-  
+
   const handleSignOut = () => {
     onSignOut()
       .then(() => {
@@ -22,7 +22,7 @@ const MenuBar = (props) => {
       })
       .catch((error) => alert(error.message));
   };
-  
+
   return (
     <Appbar.Header style={{ backgroundColor: "darkgreen", zIndex: 1 }}>
       <Provider>
@@ -33,10 +33,7 @@ const MenuBar = (props) => {
             <Appbar.Action icon="menu" color="white" onPress={openMenu} />
           }
         >
-          <Menu.Item
-            onPress={handleSignOut}
-            title="Sign Out"
-          />
+          <Menu.Item onPress={handleSignOut} title="Sign Out" />
           <Menu.Item
             onPress={() => {
               console.log("Option 2 was pressed");
