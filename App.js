@@ -5,6 +5,7 @@ import { Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as Location from "expo-location";
+import { Provider as PaperProvider } from "react-native-paper";
 
 import Home from "./components/Home";
 import MenuBar from "./components/MenuBar";
@@ -81,35 +82,30 @@ export default function App() {
   }, []);
 
   return (
-    <UserContextProvider>
-      <NavigationContainer>
-        <MenuBar />
-        {/* used for debugging */}
-        {/* <Button
-          title="log ishomevaraible"
-          onPress={() => {
-            console.log(isHomeVariable);
-          }}
-        /> */}
-        <Stack.Navigator>
-          <Stack.Screen
-            options={{ headerShown: false, gestureEnabled: false }}
-            name="Login"
-            component={LoginScreen}
-          />
-          <Stack.Screen name="Home" options={{ headerShown: false }}>
-            {(props) => (
-              <Home
-                isHomeVariable={isHomeVariable}
-                homeLocation={homeLocation}
-              />
-            )}
-          </Stack.Screen>
-          <Stack.Screen name="Map" options={{ headerShown: false }}>
-            {(props) => <Map homeLocation={homeLocation} />}
-          </Stack.Screen>
-        </Stack.Navigator>
-      </NavigationContainer>
-    </UserContextProvider>
+    <PaperProvider>
+      <UserContextProvider>
+        <NavigationContainer>
+          <MenuBar />
+          <Stack.Navigator>
+            <Stack.Screen
+              options={{ headerShown: false, gestureEnabled: false }}
+              name="Login"
+              component={LoginScreen}
+            />
+            <Stack.Screen name="Home" options={{ headerShown: false }}>
+              {(props) => (
+                <Home
+                  isHomeVariable={isHomeVariable}
+                  homeLocation={homeLocation}
+                />
+              )}
+            </Stack.Screen>
+            <Stack.Screen name="Map" options={{ headerShown: false }}>
+              {(props) => <Map homeLocation={homeLocation} />}
+            </Stack.Screen>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </UserContextProvider>
+    </PaperProvider>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import CheckBox from "react-native-check-box";
 import { IconButton } from "react-native-paper";
 
@@ -20,15 +20,7 @@ const Task = (props) => {
           if (props.isHomeVariable) {
             props.handleChangeTaskCheck(props.index);
           } else {
-            Alert.alert(
-              "Alert!",
-              "You need to be at home to edit the task list.",
-              [
-                {
-                  text: "Ok",
-                },
-              ]
-            );
+            alert("You need to be at home to edit the task list.");
           }
         }}
         isChecked={props.checked}

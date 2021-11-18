@@ -46,7 +46,6 @@ export default Home = (props) => {
   }, []);
 
   const handleSignOut = () => {
-    // console.log(user);
     onSignOut()
       .then(() => {
         resetUser();
@@ -105,9 +104,6 @@ export default Home = (props) => {
         }}
         keyboardShouldPersistTaps="handled"
       >
-        <TouchableOpacity onPress={handleSignOut} style={styles.button}>
-          <Text style={styles.buttonText}>Sign out</Text>
-        </TouchableOpacity>
         <View style={styles.tasksWrapper}>
           <Text style={styles.sectionTitle}>Before leaving home: </Text>
           <View style={styles.items}>
