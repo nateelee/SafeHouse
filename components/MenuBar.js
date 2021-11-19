@@ -42,12 +42,6 @@ const MenuBar = (props) => {
             }
           >
             <Menu.Item onPress={handleSignOut} title="Sign Out" />
-            <Menu.Item
-              onPress={() => {
-                console.log("Option 2 was pressed");
-              }}
-              title="Option 2"
-            />
           </Menu>
           <Appbar.Content title="SafeHouse" style={{ alignItems: "center" }} />
           <Appbar.Action
