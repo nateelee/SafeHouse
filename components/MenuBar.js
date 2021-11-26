@@ -13,7 +13,7 @@ const MenuBar = (props) => {
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
   const { resetUser, user } = useContext(UserContext);
-
+  
   const handleSignOut = () => {
     onSignOut()
       .then(() => {
