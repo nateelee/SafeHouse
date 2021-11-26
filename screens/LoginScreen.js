@@ -21,7 +21,7 @@ const LoginScreen = () => {
       if (user) {
         //console.log(user);
         setUser(user);
-        navigation.replace("Home");
+        navigation.navigate("Home");
       }
     });
     return unsubscribe;

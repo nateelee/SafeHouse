@@ -5,6 +5,7 @@ import { Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as Location from "expo-location";
+import { Provider as PaperProvider } from "react-native-paper";
 
 import Home from "./components/Home";
 import MenuBar from "./components/MenuBar";
@@ -35,9 +36,11 @@ export default function App() {
     let location = await Location.watchPositionAsync(
       {
         accuracy: Location.Accuracy.BestForNavigation,
-        timeInterval: 3000,
+        // timeInterval: 3000,
+        distanceInterval: 0,
       },
       (newLocation) => {
+        //console.log("checking location");
         let { coords } = newLocation;
         let res = null;
         if (
@@ -49,8 +52,10 @@ export default function App() {
           return false;
         }
         if (
-          homeLocation.current.latitude == coords.latitude &&
-          homeLocation.current.longitude == coords.longitude
+          homeLocation.current.latitude - 0.0003 <= coords.latitude &&
+          coords.latitude <= homeLocation.current.latitude + 0.0003 &&
+          homeLocation.current.longitude - 0.0003 <= coords.longitude &&
+          coords.longitude <= homeLocation.current.longitude + 0.0003
         ) {
           res = true;
         } else {
@@ -77,23 +82,30 @@ export default function App() {
   }, []);
 
   return (
-    <UserContextProvider>
-      <NavigationContainer>
-        <MenuBar />
-        <Stack.Navigator>
-          <Stack.Screen
-            options={{ headerShown: false, gestureEnabled: false }}
-            name="Login"
-            component={LoginScreen}
-          />
-          <Stack.Screen name="Home" options={{ headerShown: false }}>
-            {(props) => <Home isHomeVariable={isHomeVariable} />}
-          </Stack.Screen>
-          <Stack.Screen name="Map" options={{ headerShown: false }}>
-            {(props) => <Map homeLocation={homeLocation} />}
-          </Stack.Screen>
-        </Stack.Navigator>
-      </NavigationContainer>
-    </UserContextProvider>
+    <PaperProvider>
+      <UserContextProvider>
+        <NavigationContainer>
+          <MenuBar />
+          <Stack.Navigator>
+            <Stack.Screen
+              options={{ headerShown: false, gestureEnabled: false }}
+              name="Login"
+              component={LoginScreen}
+            />
+            <Stack.Screen name="Home" options={{ headerShown: false }}>
+              {(props) => (
+                <Home
+                  isHomeVariable={isHomeVariable}
+                  homeLocation={homeLocation}
+                />
+              )}
+            </Stack.Screen>
+            <Stack.Screen name="Map" options={{ headerShown: false }}>
+              {(props) => <Map homeLocation={homeLocation} />}
+            </Stack.Screen>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </UserContextProvider>
+    </PaperProvider>
   );
 }

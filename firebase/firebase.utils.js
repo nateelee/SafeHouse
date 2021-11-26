@@ -85,6 +85,11 @@ export const onSignIn = async ({ googleUser, setUser }) => {
               last_name: result.additionalUserInfo.profile.family_name,
               last_logged_in: Date.now(),
               created_at: Date.now(),
+              home_location: {
+                latitude: 0,
+                longitude: 0,
+              },
+              task_list: [],
             });
           } else {
             // Receive user info and transactions and update last logged in

@@ -1,8 +1,8 @@
-import React, { useContext,useState } from "react";
+import React, { useContext, useState } from "react";
+import { View, Platform } from "react-native";
 import { Appbar, Menu } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { Provider } from "react-native-paper";
 import UserContext from "../context/UserContext";
 import { onSignOut } from "../firebase/firebase.utils";
 
@@ -22,40 +22,46 @@ const MenuBar = (props) => {
       })
       .catch((error) => alert(error.message));
   };
-  
-  return (
-    <Appbar.Header style={{ backgroundColor: "darkgreen", zIndex: 1 }}>
-      <Provider>
-        <Menu
-          visible={visible}
-          onDismiss={closeMenu}
-          anchor={
-            <Appbar.Action icon="menu" color="white" onPress={openMenu} />
-          }
+
+  const loginCheck = () => {
+    if (user) {
+      return (
+        <Appbar.Header
+          style={{
+            backgroundColor: "darkgreen",
+            elevation: 1,
+            zIndex: 1,
+          }}
         >
-          <Menu.Item
-            onPress={handleSignOut}
-            title="Sign Out"
-          />
-          <Menu.Item
+          <Menu
+            style={Platform.OS === "ios" ? { top: 77 } : { top: 105 }}
+            visible={visible}
+            onDismiss={closeMenu}
+            anchor={
+              <Appbar.Action icon="menu" color="white" onPress={openMenu} />
+            }
+          >
+            <Menu.Item onPress={handleSignOut} title="Sign Out" />
+          </Menu>
+          <Appbar.Content title="SafeHouse" style={{ alignItems: "center" }} />
+          <Appbar.Action
+            color="white"
+            icon="map"
             onPress={() => {
-              console.log("Option 2 was pressed");
+              const { name } = navigation.getCurrentRoute();
+              name === "Home"
+                ? navigation.navigate("Map")
+                : navigation.goBack();
             }}
-            title="Option 2"
           />
-        </Menu>
-      </Provider>
-      <Appbar.Content title="SafeHouse" style={{ paddingRight: 96 }} />
-      <Appbar.Action
-        color="white"
-        icon="map"
-        onPress={() => {
-          const { name } = navigation.getCurrentRoute();
-          name === "Home" ? navigation.navigate("Map") : navigation.goBack();
-        }}
-      />
-    </Appbar.Header>
-  );
+        </Appbar.Header>
+      );
+    } else {
+      return <View />;
+    }
+  };
+
+  return loginCheck();
 };
 
 export default MenuBar;

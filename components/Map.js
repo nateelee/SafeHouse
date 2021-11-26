@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import {
   StyleSheet,
   View,
@@ -10,8 +10,12 @@ import {
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from "expo-location";
 import { Entypo, FontAwesome5 } from "@expo/vector-icons";
+import { firestore } from "../firebase/firebase.utils";
+import UserContext from "../context/UserContext";
 
 const Map = (props) => {
+  const { user } = useContext(UserContext);
+  const db = useRef();
   let isMounted = useRef(false);
   const currentCoords = useRef({
     latitude: 36.988,
@@ -28,16 +32,11 @@ const Map = (props) => {
       let location = await Location.watchPositionAsync(
         {
           accuracy: Location.Accuracy.BestForNavigation,
-          timeInterval: 3000,
+          // timeInterval: 3000,
+          distanceInterval: 0,
         },
         (newLocation) => {
           let { coords } = newLocation;
-          // let region = {
-          //   latitude: coords.latitude,
-          //   longitude: coords.longitude,
-          //   latitudeDelta: 0.025,
-          //   longitudeDelta: 0.025,
-          // };
           if (isMounted) {
             currentCoords.current = {
               latitude: coords.latitude,
@@ -80,6 +79,11 @@ const Map = (props) => {
       latitude: currentCoords.current.latitude,
       longitude: currentCoords.current.longitude,
     };
+
+    const userRef = firestore.doc(`users/${user.uid}`);
+    userRef.update({
+      home_location: props.homeLocation.current,
+    });
     setUpdateState(!updateState);
   };
 
