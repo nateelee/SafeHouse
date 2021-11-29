@@ -54,13 +54,14 @@ const Map = (props) => {
     return null;
   };
 
-  // Calls the location tracking  function when the mapscreen mounts
+  // Tracks location upon map component mounting
   useEffect(() => {
     (async () => {
       isMounted = true;
       if (isMounted) {
         let { status } = await Location.requestForegroundPermissionsAsync(); // Request location permission
         if (status === "granted") {
+          // If location permissions are granted we call the tracking function
           getLocationAsync();
         } else {
           if (isMounted) {
@@ -80,7 +81,6 @@ const Map = (props) => {
       latitude: currentCoords.current.latitude,
       longitude: currentCoords.current.longitude,
     };
-
     const userRef = firestore.doc(`users/${user.uid}`); // Updates db with new home
     userRef.update({
       home_location: props.homeLocation.current,

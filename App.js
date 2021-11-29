@@ -31,7 +31,8 @@ export default function App() {
     latitude: 0,
     longitude: 0,
   });
-  // Boolean variable that checks whether the user is home
+  // Boolean variable that shows whether the user is home
+  // isHomeVariable = True if user is home
   const [isHomeVariable, setIsHomeVariable] = React.useState(false);
 
   // Main function used to handle location tracking
@@ -79,7 +80,8 @@ export default function App() {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync(); // Get location tracking permission
       if (status === "granted") {
-        getLocationAsync(); // Start the main function for location tracking and home checking
+        // If location permissions are granted we call the tracking function
+        getLocationAsync();
       } else {
         //setError({ error: "Locations services needed" });
         console.log("Locations services needed");
