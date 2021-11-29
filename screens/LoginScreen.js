@@ -1,21 +1,21 @@
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import {
   KeyboardAvoidingView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import { signInWithGoogle, onSignOut, auth } from "../firebase/firebase.utils";
+import { signInWithGoogle, auth } from "../firebase/firebase.utils";
 import UserContext from "../context/UserContext";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
   const { setUser } = useContext(UserContext);
-  const handleGoogleSignIn = () => signInWithGoogle({ setUser });
+  const handleGoogleSignIn = () => signInWithGoogle({ setUser }); // Function called when you tap the sign in button
 
+  // Once the user has signed in we navigate to the home screen
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {

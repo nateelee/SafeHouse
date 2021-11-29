@@ -15,34 +15,34 @@ import UserContext from "../context/UserContext";
 
 const Map = (props) => {
   const { user } = useContext(UserContext);
-  const db = useRef();
-  let isMounted = useRef(false);
   const currentCoords = useRef({
     latitude: 36.988,
     longitude: -122.0583,
   });
+  const followsUserLocation = useRef(true); // Used to determine whether the map automatically recenters on current coordinates.
   const mapRef = useRef(null);
-  const followsUserLocation = useRef(true);
   const [error, setError] = useState({});
+  let isMounted = useRef(false); // Keeps track of whether the component is mounted
   const [updateState, setUpdateState] = useState(false);
 
+  // Function that is used for location tracking when on the map screen
   getLocationAsync = async () => {
     // watchPositionAsync Return Lat & Long on Position Change
     if (isMounted) {
       let location = await Location.watchPositionAsync(
         {
           accuracy: Location.Accuracy.BestForNavigation,
-          // timeInterval: 3000,
           distanceInterval: 0,
         },
         (newLocation) => {
           let { coords } = newLocation;
           if (isMounted) {
+            // Store user's current location
             currentCoords.current = {
               latitude: coords.latitude,
               longitude: coords.longitude,
             };
-            animateToRegion();
+            animateToRegion(); // Centers the map on the user's current location
           } else {
             return null;
           }
@@ -54,12 +54,12 @@ const Map = (props) => {
     return null;
   };
 
+  // Calls the location tracking  function when the mapscreen mounts
   useEffect(() => {
     (async () => {
       isMounted = true;
       if (isMounted) {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-
+        let { status } = await Location.requestForegroundPermissionsAsync(); // Request location permission
         if (status === "granted") {
           getLocationAsync();
         } else {
@@ -74,19 +74,21 @@ const Map = (props) => {
     })();
   }, []);
 
+  // Function used to set a new home location
   const setHome = () => {
     props.homeLocation.current = {
       latitude: currentCoords.current.latitude,
       longitude: currentCoords.current.longitude,
     };
 
-    const userRef = firestore.doc(`users/${user.uid}`);
+    const userRef = firestore.doc(`users/${user.uid}`); // Updates db with new home
     userRef.update({
       home_location: props.homeLocation.current,
     });
     setUpdateState(!updateState);
   };
 
+  // Function used to center map on current location
   const animateToRegion = () => {
     if (mapRef.current !== null) {
       followsUserLocation.current &&
@@ -102,17 +104,23 @@ const Map = (props) => {
     }
   };
 
+  // Function called when user drags the map
+  // This stops the map from automatically centering on your current location
   const mapDrag = () => {
     followsUserLocation.current = false;
     setUpdateState(!updateState);
   };
 
+  // Function called when the re-center button is pressed
+  // Makes the map automatically center on current location
   const recenterMap = () => {
     followsUserLocation.current = true;
     animateToRegion();
     setUpdateState(!updateState);
   };
 
+  // Function that determines whether the recenter button appears
+  // Re-center button only appears when the map does not automatically center on current location
   const showRecenterButton = () => {
     if (followsUserLocation.current === false) {
       return (

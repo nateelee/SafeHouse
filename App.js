@@ -1,18 +1,18 @@
 import "react-native-gesture-handler";
 import * as React from "react";
 
-import { Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as Location from "expo-location";
 import { Provider as PaperProvider } from "react-native-paper";
 
-import Home from "./components/Home";
-import MenuBar from "./components/MenuBar";
-import Map from "./components/Map";
+import Home from "./screens/HomeScreen";
+import Map from "./screens/MapScreen";
 import LoginScreen from "./screens/LoginScreen";
+import MenuBar from "./components/MenuBar";
 import { UserContextProvider } from "./context/UserContext";
 
+// Used to prevent certain warnings from appearing
 import { LogBox } from "react-native";
 import _ from "lodash";
 LogBox.ignoreLogs(["Warning:..."]); // ignore specific logs
@@ -26,24 +26,28 @@ console.warn = (message) => {
 
 const Stack = createStackNavigator();
 export default function App() {
+  // Stores the coordinations of home
   const homeLocation = React.useRef({
     latitude: 0,
     longitude: 0,
   });
-  const [isHomeVariable, setIsHomeVariable] = React.useState(false); // will need to read from database
+  // Boolean variable that checks whether the user is home
+  const [isHomeVariable, setIsHomeVariable] = React.useState(false);
+
+  // Main function used to handle location tracking
+  // This function changes isHomeVariable based on if the user is within a certain range of the home coordinate.
   const getLocationAsync = async () => {
-    // watchPositionAsync Return Lat & Long on Position Change
     let location = await Location.watchPositionAsync(
       {
         accuracy: Location.Accuracy.BestForNavigation,
-        // timeInterval: 3000,
         distanceInterval: 0,
       },
       (newLocation) => {
-        //console.log("checking location");
+        // We save the current coords
         let { coords } = newLocation;
         let res = null;
         if (
+          // Checks to see if the home location is unset
           homeLocation.current.latitude == 0 &&
           homeLocation.current.longitude == 0 &&
           coords.latitude == 0 &&
@@ -52,6 +56,7 @@ export default function App() {
           return false;
         }
         if (
+          //Checks to see if the current coordinates is within a certain range of the home coordinations
           homeLocation.current.latitude - 0.0003 <= coords.latitude &&
           coords.latitude <= homeLocation.current.latitude + 0.0003 &&
           homeLocation.current.longitude - 0.0003 <= coords.longitude &&
@@ -59,6 +64,7 @@ export default function App() {
         ) {
           res = true;
         } else {
+          // If current coordinates are not in range we set isHomeVariable to false
           res = false;
         }
         setIsHomeVariable(res);
@@ -68,11 +74,12 @@ export default function App() {
     return location;
   };
 
+  // This runs whenever this component is mounted
   React.useEffect(() => {
     (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
+      let { status } = await Location.requestForegroundPermissionsAsync(); // Get location tracking permission
       if (status === "granted") {
-        getLocationAsync();
+        getLocationAsync(); // Start the main function for location tracking and home checking
       } else {
         //setError({ error: "Locations services needed" });
         console.log("Locations services needed");

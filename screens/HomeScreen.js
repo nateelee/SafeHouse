@@ -8,23 +8,20 @@ import {
   TouchableOpacity,
   Keyboard,
   ScrollView,
-  Dimensions,
   Platform,
 } from "react-native";
-import Task from "./Task";
-import { useNavigation } from "@react-navigation/core";
+import Task from "../components/Task";
 
 import UserContext from "../context/UserContext";
-import { onSignOut, firestore } from "../firebase/firebase.utils";
+import { firestore } from "../firebase/firebase.utils";
 
 export default Home = (props) => {
   const [task, setTask] = useState();
   const [taskItems, setTaskItems] = useState([]);
   const taskList = useRef([]);
-  const navigation = useNavigation();
+  const { user } = useContext(UserContext);
 
-  const { resetUser, user } = useContext(UserContext);
-
+  // Pull information from the database upon component mounting
   useEffect(() => {
     const userRef = firestore.doc(`users/${user.uid}`);
     userRef
@@ -45,39 +42,30 @@ export default Home = (props) => {
       });
   }, []);
 
-  const handleSignOut = () => {
-    onSignOut()
-      .then(() => {
-        resetUser();
-        navigation.navigate("Login");
-      })
-      .catch((error) => alert(error.message));
-  };
-
+  // Function used new task is added
   const handleAddTask = () => {
     if (task != null && task.length <= 50) {
-      Keyboard.dismiss();
+      // We add the task to our tasklist
       setTaskItems([...taskItems, { text: task, checked: false }]);
       taskList.current = [...taskItems, { text: task, checked: false }];
-      setTask(null);
-
-      const userRef = firestore.doc(`users/${user.uid}`);
+      const userRef = firestore.doc(`users/${user.uid}`); // Update db with new task list
       userRef.update({
         task_list: taskList.current,
       });
     } else if (task != null && task.length > 50) {
-      Keyboard.dismiss();
       alert("Please keep your tasks under 50 characters in length!");
-      setTask(null);
     } else {
       alert("You cannot have an empty task!");
     }
+    Keyboard.dismiss();
+    setTask(null);
   };
 
+  // Used for deleting tasks from tasklist
   const completeTask = (index) => {
     let itemsCopy = [...taskItems];
     itemsCopy.splice(index, 1); //delete item
-    const userRef = firestore.doc(`users/${user.uid}`);
+    const userRef = firestore.doc(`users/${user.uid}`); // Update db with new task list
     userRef.update({
       task_list: itemsCopy,
     });
@@ -85,10 +73,11 @@ export default Home = (props) => {
     setTaskItems(itemsCopy);
   };
 
+  // Function used for changing whether a task is done
   const handleChangeTaskCheck = (index) => {
     let itemsCopy = [...taskItems];
     itemsCopy[index].checked = !itemsCopy[index].checked;
-    const userRef = firestore.doc(`users/${user.uid}`);
+    const userRef = firestore.doc(`users/${user.uid}`); // Update db with new task list
     userRef.update({
       task_list: itemsCopy,
     });

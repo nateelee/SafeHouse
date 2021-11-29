@@ -98,19 +98,11 @@ export const onSignIn = async ({ googleUser, setUser }) => {
               last_logged_in: Date.now(),
             });
           }
-          // setAccessToken(result.accessToken);
           setUser(result.user);
         })
         .catch(function (error) {
           // Handle Errors here.
           console.error(error);
-          // var errorCode = error.code;
-          // var errorMessage = error.message;
-          // The email of the user's account used.
-          // var email = error.email;
-          // The firebase.auth.AuthCredential type that was used.
-          // var credential = error.credential;
-          // ...
         });
     } else {
       onSignOut();
@@ -130,26 +122,4 @@ export const signInWithGoogle = async ({ setUser }) => {
   } else {
     alert("I am sorry, we couldn't verify your login. Please try again.");
   }
-};
-
-export const addTransaction = async (uid, transaction) => {
-  if (!uid) return;
-
-  const collectionRef = firestore.collection(`users/${uid}/transactions`);
-
-  await collectionRef
-    .add({
-      ...transaction,
-      last_edited: Date.now(),
-      created_at: Date.now(),
-    })
-    .then((docRef) => {
-      return docRef.update({
-        transactionsID: docRef.id,
-      });
-    });
-
-  const transactions = await collectionRef.get();
-  const allTransactions = transactions.docs.map((doc) => doc.data());
-  return allTransactions;
 };
