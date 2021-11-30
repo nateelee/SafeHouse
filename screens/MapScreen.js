@@ -165,15 +165,18 @@ const Map = (props) => {
         }
         onPanDrag={() => mapDrag()}
       >
-        <Marker
-          coordinate={{
-            latitude: props.homeLocation.current.latitude,
-            longitude: props.homeLocation.current.longitude,
-          }}
-          title={"Home"}
-        >
-          <Image source={require("../assets/home.png")} />
-        </Marker>
+        {props.homeLocation.current.latitude != 0 &&
+          props.homeLocation.current.longitude != 0 && (
+            <Marker
+              coordinate={{
+                latitude: props.homeLocation.current.latitude,
+                longitude: props.homeLocation.current.longitude,
+              }}
+              title={"Home"}
+            >
+              <Image source={require("../assets/home.png")} />
+            </Marker>
+          )}
       </MapView>
       <View style={styles.bottomButtonsWrapper}>
         <TouchableOpacity
