@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   Text,
+  Alert,
 } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from "expo-location";
@@ -76,18 +77,39 @@ const Map = (props) => {
   }, []);
 
   // Function used to set a new home location
-  const setHome = () => {
-    props.homeLocation.current = {
-      latitude: currentCoords.current.latitude,
-      longitude: currentCoords.current.longitude,
-    };
+ const setHome = () => {
+	 // If a home location already exists, send confirmatio
+	if(props.homeLocation.current.latitude != 0 && props.homeLocation.current.latitude != 0){
+		Alert.alert("Existing Home Found","Are you sure you would like to change your home location?",
+			[
+				{
+					text: "Yes",
+					onPress: () => {
+						props.homeLocation.current = {
+							latitude: currentCoords.current.latitude,
+							longitude: currentCoords.current.longitude,
+						};
+					},
+				},
+				{
+					text: "No",
+				},
+			]
+		);
+	}
+	else{
+		props.homeLocation.current = {
+			latitude: currentCoords.current.latitude,
+			longitude: currentCoords.current.longitude,
+		};
+	}
     const userRef = firestore.doc(`users/${user.uid}`); // Updates db with new home
     userRef.update({
       home_location: props.homeLocation.current,
     });
     setUpdateState(!updateState);
   };
-
+  
   // Function used to center map on current location
   const animateToRegion = () => {
     if (mapRef.current !== null) {

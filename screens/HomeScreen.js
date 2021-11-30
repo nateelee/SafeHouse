@@ -43,22 +43,30 @@ export default Home = (props) => {
   }, []);
 
   // Function used new task is added
-  const handleAddTask = () => {
-    if (task != null && task.length <= 50) {
-      // We add the task to our tasklist
+ const handleAddTask = () => {
+    if (task != null && task.length <= 50 && taskList.current.length <= 49) {
+      Keyboard.dismiss();
       setTaskItems([...taskItems, { text: task, checked: false }]);
       taskList.current = [...taskItems, { text: task, checked: false }];
-      const userRef = firestore.doc(`users/${user.uid}`); // Update db with new task list
+      setTask(null);
+	  console.log(taskList.current.length);
+
+      const userRef = firestore.doc(`users/${user.uid}`);
       userRef.update({
         task_list: taskList.current,
       });
-    } else if (task != null && task.length > 50) {
+    } else if (task != null && taskList.current.length <= 49) {
+      Keyboard.dismiss();
       alert("Please keep your tasks under 50 characters in length!");
-    } else {
+      setTask(null);
+    } else if (task != null && taskList.length == 50){
+		Keyboard.dismiss();
+		alert("You have maximum amount of tasks!");
+	}
+	else {
+		Keyboard.dismiss();
       alert("You cannot have an empty task!");
     }
-    Keyboard.dismiss();
-    setTask(null);
   };
 
   // Used for deleting tasks from tasklist
