@@ -28,7 +28,6 @@ export default Home = (props) => {
       .get()
       .then((doc) => {
         if (doc.exists) {
-          // console.log("Document data:", doc.data());
           props.homeLocation.current = doc.data().home_location;
           taskList.current = doc.data().task_list;
           setTaskItems(doc.data().task_list);
@@ -44,28 +43,27 @@ export default Home = (props) => {
 
   // Function used new task is added
  const handleAddTask = () => {
-    if (task != null && task.length <= 50 && taskList.current.length <= 49) {
+    if (task != null && task.length <= 50 && taskList.current.length <= 19) {
       Keyboard.dismiss();
       setTaskItems([...taskItems, { text: task, checked: false }]);
       taskList.current = [...taskItems, { text: task, checked: false }];
       setTask(null);
-	  console.log(taskList.current.length);
 
       const userRef = firestore.doc(`users/${user.uid}`);
       userRef.update({
         task_list: taskList.current,
       });
-    } else if (task != null && taskList.current.length <= 49) {
+    } else if (task != null && taskList.current.length <= 19) {
       Keyboard.dismiss();
       alert("Please keep your tasks under 50 characters in length!");
       setTask(null);
-    } else if (task != null && taskList.length == 50){
+    } else if (task != null && taskList.current.length == 20){
 		Keyboard.dismiss();
-		alert("You have maximum amount of tasks!");
+		alert("You have the maximum amount of tasks!");
 	}
 	else {
 		Keyboard.dismiss();
-      alert("You cannot have an empty task!");
+		alert("You cannot have an empty task!");
     }
   };
 

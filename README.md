@@ -70,24 +70,30 @@ Spike:  databases, google authentication
 
 (3) User story 2: As a user who wants to have their information saved securely, I want the app to use a secure authentication system like Firebase so that I can just use my gmail account as my account for SafeHouse. 
 
-
-(3) User story 3: As a forgetful person, I want my checklist to be locked when I’m out of the house and unlocked when I arrive home so that I don’t second guess myself on the tasks I have listed.
+(5) User story 3: As a user who wants my tasks to be saved on and offline with the mobile app, I want to have my inputs displayed upon sign-in with Firebase through the app’s database so that my tasks and home address can be retrieved and used in the app without my having to reenter them.
 
 (5) User story 4: As a user who wants my tasks to be saved on and offline with the mobile app, I want to have my inputs saved in Firebase database so that my inputs can be saved for later.
 
-
-(5) User story 5: As a user who wants my tasks to be saved on and offline with the mobile app, I want to have my inputs displayed upon sign-in with Firebase through the app’s database so that my tasks and home address can be retrieved and used in the app without my having to reenter them.
+(3) User story 5: As a forgetful person, I want my checklist to be locked when I’m out of the house and unlocked when I arrive home so that I don’t second guess myself on the tasks I have listed.
 
 ### Sprint 4:
 Spike: more database?
-(3) User story 1: As a developer, I want to be able to understand the project code through comments so that I can maintain and scale the application.
-(3) User story 2: As a developer, I want all the documentation to be organized in the repo so that I can reference them when questions arise regarding the application.
- 
-(3) User story 3: As a developer, I want a clear READ.ME to guide me through what’s in the repo so that I can properly build and use the application.
- 
-(3) User story 4: As a customer, I want a powerpoint presentation that demos and walks through the application at a high level so that I can validate whether or not it meets my expectations.
- 
-(3) User story 5: As a developer, I want testing and prototype documentation so that the user can be assured that the project is functional and resistant to errors.
+
+(3) User Story 1: As a developer, I want to be able to understand the project code through comments so that I can maintain and scale  the application.
+
+(3) User Story 2: As a developer, I want all the documentation to be organized in the repo so that I can reference them when questions arise regarding the application.
+
+(3) User Story 3: As a developer, I want a clear README to guide me through what's in the repo so that I can properly build and use the application.
+
+(3) User Story 4: As a customer, I want a powerpoint presentation that demonstrates and walks though the application at a high level so that I can validate whether or not it meets my expectations.
+
+(3) User Story 5: As a developer, I want testing and prototype documentation so that the user can be assured that the project is functional and resistant to errors.
+
+(3) User Story 6: As an end user, I want confirmation for changing my home location so that I don't accidentally relocate and lose my original location. 
+
+(3) User Story 7: As a developer, I want to prevent users from spamming the database so that our systems aren't overloaded, and additionally allow our app to continue running quickly.
+
+
 
 
 ### Backlog:
