@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image,
 } from "react-native";
 import { signInWithGoogle, auth } from "../firebase/firebase.utils";
 import UserContext from "../context/UserContext";
@@ -19,7 +20,6 @@ const LoginScreen = () => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        //console.log(user);
         setUser(user);
         navigation.navigate("Home");
       }
@@ -28,7 +28,10 @@ const LoginScreen = () => {
   }, []);
 
   return (
+  // Visual stuff like title, image, and login button
     <KeyboardAvoidingView style={styles.container} behavior="padding">
+	<Text style={{fontSize: 48, fontWeight: 'bold', alignItems: 'center'}}> SafeHouse </Text>
+	<Image source={require('../assets/safehouse_logo.png')} />
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           onPress={handleGoogleSignIn}
