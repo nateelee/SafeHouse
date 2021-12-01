@@ -32,7 +32,7 @@ const LoginScreen = () => {
   // Visual stuff like title, image, and login button
     <KeyboardAvoidingView style={styles.container} behavior="padding">
 	<Text style={{fontSize: 48, fontWeight: 'bold', alignItems: 'center'}}> SafeHouse </Text>
-	<Image source={require('../img/safehouse_logo.png')} />
+	<Image source={require('../assets/safehouse_logo.png')} />
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           onPress={handleGoogleSignIn}
