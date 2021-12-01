@@ -11,7 +11,6 @@ Revision Number: 1
 
 Revision Date: October 6, 2021
 
-
 ## Description:
 SafeHouse is an application developed the common problem of forgetting to do some task before leaving your home.
 The application allows users to create a list of tasks/reminders and allows users to check tasks off as they are completed.
@@ -47,18 +46,15 @@ This way users can see the tasks they have not yet completed, and eliminate the 
 
 
 ## User stories for release:
-### Sprint 1:
-
-Infrastructure: create a GitHub repository and have everyone on the team clone it on their unique devices and create their own branch, this repo needs react library installed
-
+### Sprint 1: 
+Infrastructure: create a GitHub repository and have everyone on the team clone it on their unique devices and create their own branch, this repo needs react library installed 
 Spike: youtube: React Native, Expo, JavaScript, cache system with mobile apps? To cache RNG ID
 
 (3) User story 1: As someone who gets confused easily, I want a basic UI that is able to display my tasks so that I can examine everything I’ve entered into my checklist.
 
 (3) User story 2: As someone who has a lot of tasks to remember before leaving the house, I would like a way to add or remove tasks to my checklist so that I can keep track of the things I need to remember before leaving the house.
 
-### Sprint 2:
-
+### Sprint 2: 
 Spike: google map API
 
 (3) User story 1: As a person who leaves the house often, I want a way to log my home location so that my checklist resets whenever I arrive home.
@@ -67,32 +63,37 @@ Spike: google map API
 
 (3) User story 3: As a forgetful person, I want my checklist to be locked when I’m out of the house and unlocked when I arrive home so that I don’t second guess myself on the tasks I have listed.
 
-User story 4/Backlog: As an average mobile user, I want to have an intuitive UI where I can understand where to access everything from account and location settings and tasks. 
-
 ### Sprint 3:
-
-Spike: database? (Firebase) caching?
+Spike:  databases, google authentication 
 
 (3) User story 1: As an individual who cares about visuals, I want the app to be more user-friendly and look more appealing so that it’s easier to look at and navigate around.
 
-(5) User story 2: As a user who wants ot have their information saved securely, I want to be able to log in to the app so that others do not have my personal information.
-
-(3) User Story 3: As someone who might not always have a stabile connection to the internet, I want ot be able to have my information saved saved without the internet so that I can still use the application.
-
-(3) User Story 5: As a forgetful person, I want my checklist to be locked when I'm out of the house and unlocked when I arrive home so that I don't second guess myself on the tasks I have listed.
+(3) User story 2: As a user who wants to have their information saved securely, I want the app to use a secure authentication system like Firebase so that I can just use my gmail account as my account for SafeHouse. 
 
 
+(3) User story 3: As a forgetful person, I want my checklist to be locked when I’m out of the house and unlocked when I arrive home so that I don’t second guess myself on the tasks I have listed.
+
+(5) User story 4: As a user who wants my tasks to be saved on and offline with the mobile app, I want to have my inputs saved in Firebase database so that my inputs can be saved for later.
+
+
+(5) User story 5: As a user who wants my tasks to be saved on and offline with the mobile app, I want to have my inputs displayed upon sign-in with Firebase through the app’s database so that my tasks and home address can be retrieved and used in the app without my having to reenter them.
 
 ### Sprint 4:
 Spike: more database?
+(3) User story 1: As a developer, I want to be able to understand the project code through comments so that I can maintain and scale the application.
+(3) User story 2: As a developer, I want all the documentation to be organized in the repo so that I can reference them when questions arise regarding the application.
+ 
+(3) User story 3: As a developer, I want a clear READ.ME to guide me through what’s in the repo so that I can properly build and use the application.
+ 
+(3) User story 4: As a customer, I want a powerpoint presentation that demos and walks through the application at a high level so that I can validate whether or not it meets my expectations.
+ 
+(3) User story 5: As a developer, I want testing and prototype documentation so that the user can be assured that the project is functional and resistant to errors.
 
-(5) User Story 1: As someone with a family, I want the app to have an option where I can add family members to the same task list and have our tasks sync properly so that I can see if anyone in the family is forgetting to do something before they leave the house.
 
-(5) User story 2: As someone with multiple homes, I want the option to log multiple homes so that I can keep track of the tasks I need to complete before leaving each home.
-
-(3) User story 3: User Story 3: As someone who cares about my privacy, I want to be able to log out of the application so that others cannot use my account while accessing the application.
-
-
+### Backlog:
+* Add ability to input address manually
+* Find way to store user address unique to a single phone
+* Scale app to handle multiple houses/locations 
 
 
 **Team members**:
