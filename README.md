@@ -12,7 +12,7 @@ Revision Number: 1
 Revision Date: October 6, 2021
 
 ## Description:
-SafeHouse is an application developed the common problem of forgetting to do some task before leaving your home.
+SafeHouse is an application developed to solve the common problem of forgetting to do some task before leaving your home.
 The application allows users to create a list of tasks/reminders and allows users to check tasks off as they are completed.
 Once the user has left the set 'home' location, the list becomes uneditable to stop users from making changes.
 This way users can see the tasks they have not yet completed, and eliminate the second guessing when the users are no longer at home.
