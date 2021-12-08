@@ -101,6 +101,15 @@ Spike: more database?
 * Find way to store user address unique to a single phone
 * Scale app to handle multiple houses/locations 
 
+## Important Folders and Files:
+* App.js: This can be considered the "main" of our application.
+* Screens: Contains code specific for each specific screen within the project. 
+* Components: Contains our MenuBar, which our navigation bar, along with our Task code, which is how users can publish/delete tasks.
+* Context: Contains the code that allows the application to know who the current user is.
+* Firebase: Contains the code that allows our application to communicate with the database.
+* Sprint folders: Contains all plans and reports for each respective sprint.
+* Testing: Contains the tests we ran on our application to ensure bug-free behavior, along with some bugs that we were unable to address but are aware of.
+
 
 **Team members**:
 
