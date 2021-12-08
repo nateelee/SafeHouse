@@ -12,12 +12,22 @@ Revision Number: 1
 Revision Date: October 6, 2021
 
 ## Description:
-SafeHouse is an application developed to solve the common problem of forgetting to do some task before leaving your home.
+SafeHouse is an application developed the common problem of forgetting to do some task before leaving your home.
 The application allows users to create a list of tasks/reminders and allows users to check tasks off as they are completed.
 Once the user has left the set 'home' location, the list becomes uneditable to stop users from making changes.
 This way users can see the tasks they have not yet completed, and eliminate the second guessing when the users are no longer at home.
 
+## Dependencies:
+* To install all node packages required to run this application locally, run the command ```npm install```
+* Some external dependencies that SafeHouse uses are: React Native framework, Expo framework, and Firebase packages. 
+* This mobile app uses the following APIs: Google Signin, Google Maps, and Firebase APIs. 
 
+## Usage:
+**![](https://lh3.googleusercontent.com/omTZTg2_c02DSnW9XT0ltltTY6D1koszbDiiw2E0BAhyVJQw5XhpSmb5Dj9gTUFP1T7erxum0EkZoX46CyDehvH7cDihZ3kvi2jeonNeVmlQdO13AtL6obxKldZci1tBI0UOLJxa)**
+**![](https://lh4.googleusercontent.com/hxNjxoXK0G95oBmQEkcZU7t9VPJcjBlNewf8eK65VvCFqJFvBnEn9UWhNZLLCfOJLOtqTbcWyZ842fM48Uh0X5YuAPNBPdDice8C59QPzOuyhLkA3BjngLEziBKDK0akSuw59oxR)**
+**![](https://lh3.googleusercontent.com/LmyPHb0JUrtHqPjJjMspIj_kI_kljMryFq7gyGrCWhPsVnug2Nozw8MaBH8JAoIbD91SghsuRqAN0-wcpF17Je6Eb5LVY06rKC55pZESfMwZhVo8XAdANNskVGHjicr4sMsHjjmn)**
+**![](https://lh6.googleusercontent.com/ZmlBJLhualnZhh-9wCHUD1KyMatjnEu0u2IQLZc8dz9BdkFZooZhHbjQQE7jQqy1RsCtSV6oN9i7SL0xzhBgOu8pVffF_hLveDQgERjlgAlQrtQV8PBG9oXgBaRm-IpBf82kWhYw)**
+**![](https://lh3.googleusercontent.com/a_Ly6g_0UE1NH0dDEIUYSQqkUNv2nKSs0oET1pWGFLqSW5wJoqmN9jQw_7Jq_zKuRSEmBB4JCcn8gGE56-x0XwPXxpG8UTGvTZRQe_aA1WCZpEL-GZVezLb6xia3c3vtN3EQ4QZN)**
 ## High-level goals:
 * Allow for a unique and customizable experience for each user with regards to the checklist functionality
 * Automate the process of arriving to/departing a home location through location tracking using Google Maps API
@@ -100,15 +110,6 @@ Spike: more database?
 * Add ability to input address manually
 * Find way to store user address unique to a single phone
 * Scale app to handle multiple houses/locations 
-
-## Important Folders and Files:
-* App.js: This can be considered the "main" of our application.
-* Screens: Contains code specific for each specific screen within the project. 
-* Components: Contains our MenuBar, which our navigation bar, along with our Task code, which is how users can publish/delete tasks.
-* Context: Contains the code that allows the application to know who the current user is.
-* Firebase: Contains the code that allows our application to communicate with the database.
-* Sprint folders: Contains all plans and reports for each respective sprint.
-* Testing: Contains the tests we ran on our application to ensure bug-free behavior, along with some bugs that we were unable to address but are aware of.
 
 
 **Team members**:
